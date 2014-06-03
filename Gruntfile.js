@@ -19,11 +19,24 @@ module.exports = function(grunt) {
                 defaultExt: "html",
                 runInBackground: true
             }
+        },
+        copy: {
+            images: {
+                files: [
+                    {expand: true,
+                    flatten: false,
+                    cwd: 'images',
+                    src: ['**'],
+                    dest: 'src/images'}
+                ]
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-http-server');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
+    grunt.registerTask('build', ['copy']);
     grunt.registerTask('default', ['http-server:dev', 'watch:source']);
 };
