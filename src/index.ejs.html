@@ -14,7 +14,7 @@
         <hr>
         <h1>Welcome to <em><%= data.CUSTOMER_NAME %> ERP</em></h1>
         <h4 ng-controller="quotaInfoController">
-          You can make {{ requestsPerSecond }} requests per second. Your config is {{ configuration }}.
+          <span ng-if="requestsPerSecond">You can make {{ requestsPerSecond }} requests per second.</span>
         </h4>
       </div>
     </div>
