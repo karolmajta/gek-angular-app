@@ -71,8 +71,14 @@ module.exports = function(grunt) {
                         cwd: 'bower_components/angular-bootstrap',
                         src: ['**'],
                         dest: 'src/libs/angular-bootstrap'
+                    },
+                    {
+                        expand: true,
+                        flatten: false,
+                        cwd: 'bower_components/angular-resource',
+                        src: ['**'],
+                        dest: 'src/libs/angular-resource'
                     }
-
                 ]
             }
         },
