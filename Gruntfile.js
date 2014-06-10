@@ -23,12 +23,50 @@ module.exports = function(grunt) {
         copy: {
             images: {
                 files: [
-                    {expand: true,
-                    flatten: false,
-                    cwd: 'images',
-                    src: ['**'],
-                    dest: 'src/images'}
+                    {
+                        expand: true,
+                        flatten: false,
+                        cwd: 'images',
+                        src: ['**'],
+                        dest: 'src/images'
+                    }
                 ]
+            },
+            bootstrap2tmp: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: false,
+                        cwd: 'bower_components/bootstrap/less',
+                        src: ['**'],
+                        dest: '.tmp/bootstrap'
+                    }
+                ]
+            },
+            lessOverrides: {
+                files: {
+                    '.tmp/bootstrap/variables.less': 'src/less/overrides/bootstrap/variables.less',
+                    '.tmp/bootstrap/theme.less': 'src/less/overrides/bootstrap/theme.less'
+                }
+            },
+            bootstrap2src: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: false,
+                        cwd: 'bower_components/bootstrap/dist',
+                        src: ['fonts/**', 'js/**'],
+                        dest: 'src/libs/bootstrap'
+                    }
+                ]
+            }
+        },
+        less: {
+            bootstrap: {
+                files: {
+                    'src/libs/bootstrap/css/bootstrap.css': '.tmp/bootstrap/bootstrap.less',
+                    'src/libs/bootstrap/css/bootstrap-theme.css': '.tmp/bootstrap/theme.less'
+                }
             }
         }
     });
@@ -36,7 +74,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-http-server');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-less');
 
-    grunt.registerTask('build', ['copy']);
+    grunt.registerTask('build', [
+      'copy',
+      'less'
+    ]);
     grunt.registerTask('default', ['http-server:dev', 'watch:source']);
 };
