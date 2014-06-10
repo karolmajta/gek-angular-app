@@ -4,7 +4,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         watch: {
             source: {
-                files: ['Gruntfile.js', 'src/**/*.js'],
+                files: ['Gruntfile.js', 'src/**/*.js', 'src/**/*.ejs.html'],
                 tasks: ['build']
             }
         },
@@ -49,8 +49,15 @@ module.exports = function(grunt) {
                     '.tmp/bootstrap/theme.less': 'src/less/overrides/bootstrap/theme.less'
                 }
             },
-            bootstrap2src: {
+            libs: {
                 files: [
+                    {
+                        expand: true,
+                        flatten: false,
+                        cwd: 'bower_components/angular',
+                        src: ['**'],
+                        dest: 'src/libs/angular'
+                    },
                     {
                         expand: true,
                         flatten: false,
