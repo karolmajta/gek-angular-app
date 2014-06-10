@@ -33,12 +33,18 @@ angular.module('derpErp', ['ui.bootstrap', 'ngResource'])
   }
 }])
 
-.factory('throttlingInterceptor', ['$window', '$q', function ($window, $q) {
+.factory('throttlingInterceptor', [
+    '$window', '$injector', '$timeout', '$q',
+    function ($window, $injector, $timeout, $q) {
+
   return {
     responseError: function (rejection) {
-      var msg = rejection.status == 420 ? 'Retry Later' : 'Unknown Error';
-      $window.alert(msg);
-      return $q.reject(rejection);
+      var $http = $injector.get('$http');
+      var d = $q.defer();
+      $timeout(function () {
+        $http(rejection.config).then(function (r) { d.resolve(r); });
+      }, rejection.data.retry_in * 1000);
+      return d.promise;
     }
   }
 }])
