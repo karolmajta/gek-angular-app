@@ -14,4 +14,12 @@ angular.module('derpErp', [])
     $scope.requestsPerSecond = response.data.requests_per_minute/60;
   })
 
+}])
+
+.controller('paymentListController', ['$scope', function ($scope) {
+  $scope.payments = [
+    { uuid: "1", name: "Mickey Mouse", value: 50 },
+    { uuid: "2", name: "Duffy Duck", value: 200 },
+    { uuid: "3", name: "Lucky Luke", value: 18 }
+  ];
 }]);
