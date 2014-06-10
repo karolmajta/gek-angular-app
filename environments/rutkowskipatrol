@@ -1,2 +1,3 @@
-export IMAGE_ROOT=images/rutkowskiPatrol
+export IMAGE_ROOT=images/rutkowskipatrol
 export API_KEY=glebaGlebaNaZiemie
+export CUSTOMER_NAME="Rutkowski Patrol"

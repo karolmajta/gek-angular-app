@@ -1,2 +1,3 @@
 export IMAGE_ROOT=images/batman
 export API_KEY=nananananaBatman
+export CUSTOMER_NAME=Batman

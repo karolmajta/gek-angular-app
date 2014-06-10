@@ -15,6 +15,7 @@
     "grunt-contrib-copy": "^0.5.0",
     "grunt-contrib-less": "^0.11.1",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-ejs-render": "^0.2.5",
     "grunt-http-server": "0.0.5"
   }
 }

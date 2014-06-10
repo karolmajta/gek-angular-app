@@ -68,6 +68,20 @@ module.exports = function(grunt) {
                     'src/libs/bootstrap/css/bootstrap-theme.css': '.tmp/bootstrap/theme.less'
                 }
             }
+        },
+        render: {
+            index: {
+                options: {
+                    data: {
+                        API_KEY: process.env.API_KEY ? process.env.API_KEY : '',
+                        IMAGE_ROOT: process.env.IMAGE_ROOT ? process.env.IMAGE_ROOT : 'images/default',
+                        CUSTOMER_NAME: process.env.CUSTOMER_NAME ? process.env.CUSTOMER_NAME : 'Derp'
+                  }
+              },
+              files: {
+                  'src/index.html': ['src/index.ejs.html']
+              }
+            }
         }
     });
 
@@ -75,10 +89,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-http-server');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-ejs-render');
 
     grunt.registerTask('build', [
       'copy',
-      'less'
+      'less',
+      'render'
     ]);
     grunt.registerTask('default', ['http-server:dev', 'watch:source']);
 };

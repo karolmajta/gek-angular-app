@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
-<head data-api-key="pleaseImRich">
+<head data-api-key="<%= data.API_KEY %>">
   <meta charset="utf-8">
-  <title>Richie Rich ERP</title>
+  <title><%= data.CUSTOMER_NAME %> ERP</title>
   <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.css">
   <link rel="stylesheet" href="libs/bootstrap/css/bootstrap-theme.css">
 </head>
@@ -10,9 +10,9 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <img src="images/richierich/logo.png" alt="Richie Rich Logo">
+        <img src="<%= data.IMAGE_ROOT %>/logo.png" alt="<%= data.CUSTOMER_NAME %> Logo">
         <hr>
-        <h1>Welcome to <em>Richie Rich ERP</em></h1>
+        <h1>Welcome to <em><%= data.CUSTOMER_NAME %> ERP</em></h1>
       </div>
     </div>
     <div>
