@@ -16,10 +16,22 @@ angular.module('derpErp', [])
 
 }])
 
-.controller('paymentListController', ['$scope', function ($scope) {
-  $scope.payments = [
-    { uuid: "1", name: "Mickey Mouse", value: 50 },
-    { uuid: "2", name: "Duffy Duck", value: 200 },
-    { uuid: "3", name: "Lucky Luke", value: 18 }
-  ];
+.controller('paymentListController', [
+    '$scope', '$http', '$window', 'API_KEY', 'API_ROOT',
+    function ($scope, $http, $window, API_KEY, API_ROOT) {
+
+  $scope.payments = [];
+  $scope.fetchPayments = function () {
+    $http.get(API_ROOT + '/payments/', {
+      headers: { Authorization: API_KEY }
+    }).then(function (response) {
+      $scope.payments = response.data.items;
+    }, function (response) {
+      var msg = response.status == 420 ? 'Retry Later' : 'Unknown Error';
+      $window.alert(msg);
+    });
+  };
+
+  $scope.fetchPayments();
+
 }]);
