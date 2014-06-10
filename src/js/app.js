@@ -1,5 +1,10 @@
 angular.module('derpErp', ['ui.bootstrap', 'ngResource'])
 
+.config(['$httpProvider', function ($httpProvider) {
+  $httpProvider.interceptors.push('authInterceptor');
+  $httpProvider.interceptors.push('throttlingInterceptor');
+}])
+
 .constant('API_KEY', angular.element(document.getElementsByTagName('head')).attr('data-api-key'))
 .constant('API_ROOT', 'http://gek-angular-workshop.herokuapp.com/api')
 
@@ -7,9 +12,7 @@ angular.module('derpErp', ['ui.bootstrap', 'ngResource'])
     '$resource', 'API_KEY', 'API_ROOT',
     function ($resource, API_KEY, API_ROOT) {
 
-  return $resource(API_ROOT + '/profile', {}, {
-    get: {headers: {Authorization: API_KEY}}
-  });
+  return $resource(API_ROOT + '/profile', {});
 }])
 
 .factory('Payment', [
@@ -17,9 +20,27 @@ angular.module('derpErp', ['ui.bootstrap', 'ngResource'])
     function ($resource, API_KEY, API_ROOT) {
 
   return $resource(API_ROOT + '/payments/ ', {}, {
-    query: {isArray: false, headers: {Authorization: API_KEY}},
-    save: {method: 'POST', headers: {Authorization: API_KEY}}
+    query: {isArray: false}
   });
+}])
+
+.factory('authInterceptor', ['API_KEY', function (API_KEY) {
+  return {
+    request: function (config) {
+      config.headers.Authorization = API_KEY;
+      return config;
+    }
+  }
+}])
+
+.factory('throttlingInterceptor', ['$window', '$q', function ($window, $q) {
+  return {
+    responseError: function (rejection) {
+      var msg = rejection.status == 420 ? 'Retry Later' : 'Unknown Error';
+      $window.alert(msg);
+      return $q.reject(rejection);
+    }
+  }
 }])
 
 .controller('quotaInfoController', [
@@ -42,9 +63,6 @@ angular.module('derpErp', ['ui.bootstrap', 'ngResource'])
   $scope.fetchPayments = function () {
     Payment.query().$promise.then(function (lst) {
       $scope.payments = lst.items;
-    }, function (response) {
-      var msg = response.status == 420 ? 'Retry Later' : 'Unknown Error';
-      $window.alert(msg);
     });
   };
 
@@ -69,9 +87,6 @@ angular.module('derpErp', ['ui.bootstrap', 'ngResource'])
   $scope.save = function () {
     Payment.save($scope.payment).$promise.then(function (payment) {
       $scope.$close(payment);
-    }, function (response) {
-      var msg = response.status == 420 ? 'Retry Later' : 'Unknown Error';
-      $window.alert(msg);
     });
   }
 }]);
