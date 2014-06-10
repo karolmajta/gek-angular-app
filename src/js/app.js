@@ -46,9 +46,19 @@ angular.module('derpErp', ['ui.bootstrap'])
 
 }])
 
-.controller('newPaymentFormController', ['$scope', function ($scope) {
+.controller('newPaymentFormController', [
+    '$scope', '$http', '$window', 'API_KEY', 'API_ROOT',
+    function ($scope, $http, $window, API_KEY, API_ROOT) {
+
   $scope.payment = null;
   $scope.save = function () {
-    $scope.$close($scope.payment);
+    $http.post(API_ROOT + '/payments/', $scope.payment, {
+      headers: { Authorization: API_KEY }
+    }).then(function (response) {
+      $scope.$close(response.data);
+    }, function (response) {
+      var msg = response.status == 420 ? 'Retry Later' : 'Unknown Error';
+      $window.alert(msg);
+    });
   }
 }]);
