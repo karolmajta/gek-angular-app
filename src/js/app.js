@@ -1,4 +1,4 @@
-angular.module('derpErp', [])
+angular.module('derpErp', ['ui.bootstrap'])
 
 .constant('API_KEY', angular.element(document.getElementsByTagName('head')).attr('data-api-key'))
 .constant('API_ROOT', 'http://gek-angular-workshop.herokuapp.com/api')
@@ -17,10 +17,11 @@ angular.module('derpErp', [])
 }])
 
 .controller('paymentListController', [
-    '$scope', '$http', '$window', 'API_KEY', 'API_ROOT',
-    function ($scope, $http, $window, API_KEY, API_ROOT) {
+    '$scope', '$http', '$window', '$modal', 'API_KEY', 'API_ROOT',
+    function ($scope, $http, $window, $modal, API_KEY, API_ROOT) {
 
   $scope.payments = [];
+
   $scope.fetchPayments = function () {
     $http.get(API_ROOT + '/payments/', {
       headers: { Authorization: API_KEY }
@@ -32,6 +33,22 @@ angular.module('derpErp', [])
     });
   };
 
+  $scope.newPayment = function () {
+    $modal.open({
+      templateUrl: 'views/new-payment.html',
+      scope: $scope
+    }).result.then(function (res) {
+      $scope.payments.unshift(res);
+    });
+  };
+
   $scope.fetchPayments();
 
+}])
+
+.controller('newPaymentFormController', ['$scope', function ($scope) {
+  $scope.payment = null;
+  $scope.save = function () {
+    $scope.$close($scope.payment);
+  }
 }]);

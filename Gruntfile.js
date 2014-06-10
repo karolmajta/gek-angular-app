@@ -64,7 +64,15 @@ module.exports = function(grunt) {
                         cwd: 'bower_components/bootstrap/dist',
                         src: ['fonts/**', 'js/**'],
                         dest: 'src/libs/bootstrap'
+                    },
+                    {
+                        expand: true,
+                        flatten: false,
+                        cwd: 'bower_components/angular-bootstrap',
+                        src: ['**'],
+                        dest: 'src/libs/angular-bootstrap'
                     }
+
                 ]
             }
         },
