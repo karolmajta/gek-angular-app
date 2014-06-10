@@ -1,0 +1,19 @@
+<form name="newPaymentForm" ng-controller="newPaymentFormController" ng-submit="save()">
+  <div class="modal-header">
+    <h4 class="modal-title">New payment</h4>
+  </div>
+  <div class="modal-body">
+      <div class="input-group">
+        <input class="form-control" type="text" name="name" placeholder="name"
+               ng-model="payment.name" required>
+        <input class="form-control" type="text" name="value" placeholder="value"
+               ng-model="payment.value" ng-pattern="/^\d+$/" required>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary"
+            ng-disabled="newPaymentForm.$invalid">Save</button>
+    <button type="button" class="btn btn-default"
+            ng-click="$dismiss(null)">Cancel</button>
+  </div>
+</form>
